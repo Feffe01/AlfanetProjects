@@ -1,6 +1,6 @@
 export const mainHost = "http://193.109.112.182"
 
-export const loginEnpoint = "/login"
+export const loginEndpoint = "/login"
 
 export const timbratureEndpoint = "/timbrature"
 export const activityEndpoint = '/timbrature/attivita'

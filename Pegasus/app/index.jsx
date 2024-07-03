@@ -61,11 +61,8 @@ function App() {
         onNavigationStateChange={handleNavigationStateChange}
         onMessage={(event) => {
             console.log("Message arrived with token: ", event.nativeEvent.data);
-            if (token === undefined)
-            {
-              setToken(event.nativeEvent.data);
-              setAuthToken("bearer " + event.nativeEvent.data);
-            }
+						setToken(event.nativeEvent.data);
+						setAuthToken("bearer " + event.nativeEvent.data);
           }}
         style={{ flex: 1 }}
       />

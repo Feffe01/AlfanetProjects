@@ -1,16 +1,38 @@
 import { Visibility, VisibilityOff } from '@mui/icons-material'
-import { FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
-import React from 'react'
+import axios from 'axios'
+import React, { useState } from 'react'
+import { loginEndpoint, mainHost } from '../commons/endpoints'
+import { Button, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField, Typography } from '@mui/material'
 
 export default function Login() {
-  const [showPassword, setShowPassword] = React.useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+	const [showUsernameError, setShowUsernameError] = useState(false);
+	const [showPasswordError, setShowPasswordError] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
   };
+
+	const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		const form = e.target as HTMLFormElement;
+		const username = (form.elements.namedItem('username') as HTMLInputElement).value;
+		const passwordX = (form.elements.namedItem('password') as HTMLInputElement).value;
+		axios.post(mainHost + loginEndpoint, {
+			username,
+			passwordX,
+			tipo: "cf"
+		})
+		.then((r) => {
+			console.log("Login POST response: ", r)
+		})
+		.catch((err) => {
+			console.log("Error: ", err)
+		})
+	}
 
 	return (
 		<Box
@@ -64,7 +86,8 @@ export default function Login() {
 					</Typography>
 					<Box
 						component='form'
-						width='70%'
+						onSubmit={handleLogin}
+						width='60%'
 						display='flex'
 						flexDirection='column'
 						gap='10px'
@@ -72,15 +95,19 @@ export default function Login() {
 						pb='10px'
 					>
 						<TextField
-							id='cf'
+							name='username'
 							label='Codice Fiscale'
 							variant='outlined'
+							error={showUsernameError}
+							helperText={showUsernameError ? "Codice Fiscale sbagliato" : null}
 							fullWidth
+							required
 						/>
-						<FormControl id='password' variant='outlined'>
+						<FormControl variant='outlined'  error={showPasswordError} required>
 							<InputLabel htmlFor='passwordInput'>Password</InputLabel>
 							<OutlinedInput
 								id="passwordInput"
+								name='password'
 								type={showPassword ? 'text' : 'password'}
 								endAdornment={
 									<InputAdornment position="end">
@@ -89,6 +116,7 @@ export default function Login() {
 											onClick={handleClickShowPassword}
 											onMouseDown={handleMouseDownPassword}
 											edge="end"
+											color={showPasswordError ? 'error' : 'default'}
 										>
 											{showPassword ? <VisibilityOff /> : <Visibility />}
 										</IconButton>
@@ -97,7 +125,14 @@ export default function Login() {
 								label="Password"
 								fullWidth
 							/>
-						</FormControl>
+							{showPasswordError ? <FormHelperText error>Password errata</FormHelperText> : null}
+							</FormControl>
+						<Button
+							type='submit'
+							fullWidth
+						>
+							Accedi
+						</Button>
 					</Box>
 				</Box>
 			</Box>

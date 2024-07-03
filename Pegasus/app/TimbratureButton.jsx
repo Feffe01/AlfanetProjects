@@ -16,7 +16,7 @@ async function requestPermissions() {
             const allGranted = Object.values(granted).every(permission => permission === PermissionsAndroid.RESULTS.GRANTED);
             return allGranted;
         } catch (err) {
-            console.error(err);
+            console.warn(err);
             return false;
         }
     } else {
@@ -24,17 +24,19 @@ async function requestPermissions() {
     }
 }
 
+const manager = new BleManager();
+
 function TimbratureButton({ style, title, token, beaconAddress }) {
     const [isScanning, setIsScanning] = useState(false);
+		const [canStartScan, setCanStartScan] = useState(false);
     const [foundDevice, setFoundDevice] = useState(false);
     const [bluetoothState, setBluetoothState] = useState('Unknown');
-    const manager = new BleManager();
     const [debug, setDebug] = useState("std");
 
     useEffect(() => {
         const subscription = manager.onStateChange((state) => {
             setBluetoothState(state);
-            if (state === 'PoweredOn' && isScanning) {
+            if (state === 'PoweredOn' && !isScanning && canStartScan) {
                 startScan();
                 subscription.remove();
             }
@@ -70,14 +72,17 @@ function TimbratureButton({ style, title, token, beaconAddress }) {
     const startScan = () => {
         console.log('Starting scanning...');
         setDebug("ScanStart");
-        manager.startDeviceScan(null, { allowDuplicates: true }, (error, device) => {
+				setIsScanning(true)
+        manager.startDeviceScan(null, null, (error, device) => {
             if (error) {
                 console.error('Scan error: ', error.message);
                 setDebug(`ScanErr: ${error.message}, state: ${bluetoothState}`);
                 setIsScanning(false);
                 return;
             }
-            console.log(device.id);
+            console.log("Detected device:", device.id, device.name, device.rssi);
+						// console.log(device);
+
             for (let i = 0; beaconAddress[i]; i++) {
                 if (device.id === beaconAddress[i].MacAddress) {
                     console.log("Beacon found: ", device.id);
@@ -86,7 +91,7 @@ function TimbratureButton({ style, title, token, beaconAddress }) {
                     setIsScanning(false);
                     setFoundDevice(true);
                     sendToken();
-                    break;
+                    return;
                 }
             }
         });
@@ -96,7 +101,7 @@ function TimbratureButton({ style, title, token, beaconAddress }) {
             manager.stopDeviceScan();
             setIsScanning(false);
             setFoundDevice(false);
-        }, 60000);
+        }, 10000);
     };
 
     const handleSearch = async () => {
@@ -106,7 +111,7 @@ function TimbratureButton({ style, title, token, beaconAddress }) {
         setDebug("ScanInit");
 
         if (!isScanning && token && beaconAddress[0] && beaconAddress.length) {
-            setIsScanning(true);
+            setCanStartScan(true);
             setFoundDevice(false);
 
             if (bluetoothState === 'PoweredOn') {
@@ -115,6 +120,7 @@ function TimbratureButton({ style, title, token, beaconAddress }) {
                 setDebug("Waiting for Bluetooth to power on");
                 console.log("Waiting for Bluetooth to power on");
             }
+						setCanStartScan(false);
         } else {
             setDebug("DataMissing - isScanning: " + isScanning + " token: " + token + "beaconAddress[0]: " + beaconAddress[0]);
             console.error("Device scan didn't start because some data is missing");
