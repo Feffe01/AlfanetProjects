@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { TouchableOpacity, Text, StyleSheet, ActivityIndicator, PermissionsAndroid, Platform } from 'react-native';
-import { BleManager } from 'react-native-ble-plx';
+import { BleManager, ScanMode } from 'react-native-ble-plx';
 import { responsiveFontSize } from 'react-native-responsive-dimensions';
 import axios from 'axios';
 
@@ -31,7 +31,7 @@ function TimbratureButton({ style, title, token, beaconAddress }) {
 		const [canStartScan, setCanStartScan] = useState(false);
     const [foundDevice, setFoundDevice] = useState(false);
     const [bluetoothState, setBluetoothState] = useState('Unknown');
-    const [debug, setDebug] = useState("std");
+    // const [debug, setDebug] = useState("std");
 
     useEffect(() => {
         const subscription = manager.onStateChange((state) => {
@@ -55,7 +55,7 @@ function TimbratureButton({ style, title, token, beaconAddress }) {
             const hasPermissions = await requestPermissions();
             if (!hasPermissions) {
                 console.error('Required permissions not granted.');
-                setDebug('Permissions not granted');
+                // setDebug('Permissions not granted');
             }
         };
         checkPermissions();
@@ -66,17 +66,23 @@ function TimbratureButton({ style, title, token, beaconAddress }) {
         axios.post("http://193.109.112.182/timbrature", {
             valoriPost: [],
             token: token
-        });
+        })
     };
 
     const startScan = () => {
         console.log('Starting scanning...');
-        setDebug("ScanStart");
+        // setDebug("ScanStart");
 				setIsScanning(true)
-        manager.startDeviceScan(null, null, (error, device) => {
+        manager.startDeviceScan(
+					null,
+					{
+					allowDuplicates: true,
+					scanMode: ScanMode.LowLatency,
+					},
+					(error, device) => {
             if (error) {
                 console.error('Scan error: ', error.message);
-                setDebug(`ScanErr: ${error.message}, state: ${bluetoothState}`);
+                // setDebug(`ScanErr: ${error.message}, state: ${bluetoothState}`);
                 setIsScanning(false);
                 return;
             }
@@ -86,7 +92,7 @@ function TimbratureButton({ style, title, token, beaconAddress }) {
             for (let i = 0; beaconAddress[i]; i++) {
                 if (device.id === beaconAddress[i].MacAddress) {
                     console.log("Beacon found: ", device.id);
-                    setDebug("BeaconFound");
+                    // setDebug("BeaconFound");
                     manager.stopDeviceScan();
                     setIsScanning(false);
                     setFoundDevice(true);
@@ -97,7 +103,7 @@ function TimbratureButton({ style, title, token, beaconAddress }) {
         });
 
         setTimeout(() => {
-            setDebug("Timeout");
+            // setDebug("Timeout");
             manager.stopDeviceScan();
             setIsScanning(false);
             setFoundDevice(false);
@@ -108,7 +114,7 @@ function TimbratureButton({ style, title, token, beaconAddress }) {
         console.log("isScanning: ", isScanning);
         console.log("token: ", token);
         console.log("beaconAddress: ", beaconAddress);
-        setDebug("ScanInit");
+        // setDebug("ScanInit");
 
         if (!isScanning && token && beaconAddress[0] && beaconAddress.length) {
             setCanStartScan(true);
@@ -117,19 +123,19 @@ function TimbratureButton({ style, title, token, beaconAddress }) {
             if (bluetoothState === 'PoweredOn') {
                 startScan();
             } else {
-                setDebug("Waiting for Bluetooth to power on");
-                console.log("Waiting for Bluetooth to power on");
+                // setDebug("Waiting for Bluetooth to power on");
+                console.log("Bluetooth is off");
             }
 						setCanStartScan(false);
         } else {
-            setDebug("DataMissing - isScanning: " + isScanning + " token: " + token + "beaconAddress[0]: " + beaconAddress[0]);
+            // setDebug("DataMissing - isScanning: " + isScanning + " token: " + token + "beaconAddress[0]: " + beaconAddress[0]);
             console.error("Device scan didn't start because some data is missing");
         }
     };
 
     return (
         <>
-            <Text>{debug}</Text>
+            {/* <Text>{debug}</Text>
             <Text>|</Text>
             <Text>|</Text>
             <Text>|</Text>
@@ -137,7 +143,7 @@ function TimbratureButton({ style, title, token, beaconAddress }) {
             <Text>|</Text>
             <Text>|</Text>
             <Text>|</Text>
-            <Text>|</Text>
+            <Text>|</Text>*/}
 
             <TouchableOpacity
                 onPress={handleSearch}
