@@ -1,9 +1,8 @@
-
 import React, { useState } from 'react';
-import { View, StyleSheet, Text, Linking, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, Linking, TouchableOpacity, SafeAreaView } from 'react-native';
 import { WebView } from 'react-native-webview';
 import TimbratureButton from './TimbratureButton';
-import { responsiveHeight, responsiveWidth, responsiveFontSize } from 'react-native-responsive-dimensions';
+import { responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
 import axios from 'axios';
 
 function App() {
@@ -49,27 +48,26 @@ function App() {
   };
 
   return (
-    <View style={styles.container}>
-      {showPrivacy && (
-        <TouchableOpacity onPress={gotoPrivacy}>
-          <Text>Visualizza le informazioni sulla Privacy</Text>
-        </TouchableOpacity>
-      )}
-      <WebView
-        source={{ uri: 'http://gsl.alfanet.it:3000' }}
-        javaScriptEnabled={true}
-        onNavigationStateChange={handleNavigationStateChange}
-        onMessage={(event) => {
-            console.log("Message arrived with token: ", event.nativeEvent.data);
-						setToken(event.nativeEvent.data);
-						setAuthToken("bearer " + event.nativeEvent.data);
-          }}
-        style={{ flex: 1 }}
-      />
-      {showButton && (
-        <TimbratureButton style={styles.overlayButton} title="Premi per timbrare" token={token} beaconAddress={beaconAddress}/>
-      )}
-    </View>
+			<SafeAreaView style={styles.container}>
+				{showPrivacy && (
+					<TouchableOpacity onPress={gotoPrivacy}>
+						<Text>Visualizza le informazioni sulla Privacy</Text>
+					</TouchableOpacity>
+				)}
+				<WebView
+					source={{ uri: 'http://gsl.alfanet.it:3000' }}
+					javaScriptEnabled={true}
+					onNavigationStateChange={handleNavigationStateChange}
+					onMessage={(event) => {
+							console.log("Message arrived with token: ", event.nativeEvent.data);
+							setToken(event.nativeEvent.data);
+							setAuthToken("bearer " + event.nativeEvent.data);
+						}}
+				/>
+				{showButton && (
+					<TimbratureButton style={styles.overlayButton} title="Premi per timbrare" token={token} beaconAddress={beaconAddress}/>
+				)}
+			</SafeAreaView>
   );
 }
 
@@ -77,9 +75,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     position: 'relative',
-  },
-  webview: {
-    flex: 1,
   },
   overlayButton: {
     position: 'absolute',
@@ -92,4 +87,3 @@ const styles = StyleSheet.create({
 });
 
 export default App;
-
