@@ -2,15 +2,19 @@ import { Visibility, VisibilityOff } from '@mui/icons-material'
 import Box from '@mui/material/Box'
 import axios from 'axios'
 import React, { useState } from 'react'
-import { loginEndpoint, mainHost } from '../commons/endpoints'
+import { loginEndpoint, mainHost } from '../costants/endpoints'
 import { Button, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField, Typography } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
 	const [showUsernameError, setShowUsernameError] = useState(false);
 	const [showPasswordError, setShowPasswordError] = useState(false);
+	const [ShowNotAnAdminError, setShowNotAnAdminError] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+	const navigate = useNavigate();
 
   const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -20,17 +24,45 @@ export default function Login() {
 		e.preventDefault();
 		const form = e.target as HTMLFormElement;
 		const username = (form.elements.namedItem('username') as HTMLInputElement).value;
-		const passwordX = (form.elements.namedItem('password') as HTMLInputElement).value;
+		const password = (form.elements.namedItem('password') as HTMLInputElement).value;
+
 		axios.post(mainHost + loginEndpoint, {
 			username,
-			passwordX,
+			password,
 			tipo: "cf"
 		})
-		.then((r) => {
-			console.log("Login POST response: ", r)
+		.then((res) => {
+			console.log("Login POST response", res)
+			const data = res.data;
+
+			if(data.Gruppo !== 'Admin')
+			{
+				setShowNotAnAdminError(true);
+				return;
+			}
+
+			setShowNotAnAdminError(false);
+			setShowUsernameError(false)
+			setShowPasswordError(false)
+			localStorage.setItem("name", data.Nome);
+			localStorage.setItem("surname", data.Cognome);
+			localStorage.setItem("gruppo", data.Gruppo);
+			localStorage.setItem("token", data.Token);
+			localStorage.setItem("bearerToken", "bearer " + data.Token)
+			localStorage.setItem("profilePicture", data.Foto);
+			navigate('/');
 		})
-		.catch((err) => {
-			console.log("Error: ", err)
+		.catch((error) => {
+			console.error("Error", error.code, error.response.data);
+			if (error.response.data.match("wrongUsername"))
+				setShowUsernameError(true)
+			else
+				setShowUsernameError(false)
+
+			if (error.response.data.match("wrongPassword"))
+				setShowPasswordError(true)
+			else
+				setShowPasswordError(false)
 		})
 	}
 
@@ -129,9 +161,10 @@ export default function Login() {
 							</FormControl>
 						<Button
 							type='submit'
+							color={ShowNotAnAdminError ? 'error' : 'inherit'}
 							fullWidth
 						>
-							Accedi
+							{ShowNotAnAdminError ? 'Non sei autorizzato ad entrare' : 'Accedi'}
 						</Button>
 					</Box>
 				</Box>

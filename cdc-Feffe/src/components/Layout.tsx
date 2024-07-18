@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Outlet, Link } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 //mui materials
 import Drawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
@@ -7,7 +7,6 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
@@ -19,50 +18,48 @@ import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import AssignmentTurnedInRoundedIcon from '@mui/icons-material/AssignmentTurnedInRounded';
 import EventBusyRoundedIcon from '@mui/icons-material/EventBusyRounded';
 import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded';
-import KeyRoundedIcon from '@mui/icons-material/KeyRounded';
-import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
 import DescriptionRoundedIcon from '@mui/icons-material/DescriptionRounded';
 import MenuIcon from '@mui/icons-material/Menu';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import LogoutButton from './buttons/LogoutButton';
+import { Avatar, Tooltip } from '@mui/material';
+import SwitchThemeButton from './buttons/SwitchThemeButton';
 
 const drawerWidth = 240;
+
 const listItems = [
-{
-  id: 0,
-  label: 'Homepage',
-  icon: <HomeRoundedIcon />,
-},
-{
-  id: 1,
-  label: 'Timbrature',
-  icon: <AssignmentTurnedInRoundedIcon />,
-},
-{
-  id: 2,
-  label: 'Assenze',
-  icon: <EventBusyRoundedIcon />,
-},
-{
-  id: 3,
-  label: 'Notifiche',
-  icon: <NotificationsRoundedIcon />,
-},
-{
-  id: 4,
-  label: 'Bustepaga',
-  icon: <DescriptionRoundedIcon />,
-},
-{
-  id: 5,
-  label: 'Profilo',
-  icon: <PersonRoundedIcon />,
-},
-{
-  id: 6,
-  label: 'Cambio Password',
-  icon: <KeyRoundedIcon />,
-},
+	{
+		id: 0 as number,
+		label: 'Homepage',
+		icon: <HomeRoundedIcon />,
+		path: '/homepage',
+	},
+	{
+		id: 1,
+		label: 'Timbrature',
+		icon: <AssignmentTurnedInRoundedIcon />,
+		path: '/timbrature',
+	},
+	{
+		id: 2,
+		label: 'Assenze',
+		icon: <EventBusyRoundedIcon />,
+		path: '/assenze',
+	},
+	{
+		id: 3,
+		label: 'Notifiche',
+		icon: <NotificationsRoundedIcon />,
+		path: '/notifiche',
+	},
+	{
+		id: 4,
+		label: 'Bustepaga',
+		icon: <DescriptionRoundedIcon />,
+		path: '/bustepaga',
+	},
 ];
+
 const MyList = styled(List)<{ component?: React.ElementType }>({
   '& .MuiListItemButton-root': {
     paddingLeft: 25,
@@ -81,36 +78,67 @@ const MyList = styled(List)<{ component?: React.ElementType }>({
 });
 
 function Layout() {
-  const [selectedListItem, setSelectedListItem] = useState<number>(0);
-  const [drawerReducer, setDrawerReducer] = useState<number>(0);
+  const [selectedListItem, setSelectedListItem] = useState<number|undefined>(0);
   const reducingValue = 160;
+  const [drawerReducer, setDrawerReducer] = useState<number>(reducingValue);
+	const navigate = useNavigate();
 
   const handleListItemClick = (
-    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    index: number,
+    // event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+		path: string,
+    index?: number,
   ) => {
     setSelectedListItem(index);
+		navigate(path);
+		setDrawerReducer(reducingValue);
   };
+
+	const getProfilePicture = () => {
+		const pp = localStorage.getItem('profilePicture') || '';
+
+		return `data:image/png;base64,${pp}`
+	}
+	
+	const getUserName = () => {
+		const name = localStorage.getItem('name') || '';
+		const surname = localStorage.getItem('surname') || '';
+
+		return name + ' ' + surname;
+	}
 
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
         <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={()=>{setDrawerReducer(drawerReducer === 0 ? reducingValue : 0);}}
-            sx={{ mr: 2, }}
-          >
-            {drawerReducer === reducingValue ? <MenuIcon sx={{fontSize: 30}}/> : <ArrowBackIcon sx={{fontSize: 30}}/>}
-          </IconButton>
-          <Typography variant="h5" noWrap component="div">
+					<Tooltip title={drawerReducer === reducingValue ? "Menù" : "Riduci Menù"}>
+						<IconButton
+							color="inherit"
+							aria-label="open drawer"
+							onClick={()=>{setDrawerReducer(drawerReducer === 0 ? reducingValue : 0);}}
+							sx={{ mr: 2, }}
+						>
+							{drawerReducer === reducingValue ? <MenuIcon sx={{fontSize: 30}}/> : <ArrowBackIcon sx={{fontSize: 30}}/>}
+						</IconButton>
+					</Tooltip>
+
+          <Typography variant="h5" noWrap component="div" flex={1}>
             Gestione Personale
           </Typography>
+
+					<Tooltip title="Profilo">
+						<IconButton onClick={() => handleListItemClick('/profilo')} size='small' sx={{p: 1}}>
+							<Typography color={'white'} mr={1}>{getUserName()}</Typography>
+							<Avatar alt="Remy Sharp" src={getProfilePicture()}/>
+						</IconButton>
+					</Tooltip>
+
+					<LogoutButton size="large" />
+
+					<SwitchThemeButton />
         </Toolbar>
       </AppBar>
+			
       <Drawer
       	variant='permanent'
       	anchor='left'
@@ -125,8 +153,10 @@ function Layout() {
           {listItems.map(item => {
             return (
               <ListItemButton
+								key={item.id}
                 selected={selectedListItem === item.id}
-                onClick={(event) => handleListItemClick(event, item.id)}
+                // onClick={(event) => handleListItemClick(event, item.id)}
+								onClick={() => handleListItemClick(item.path, item.id)}
                 alignItems="flex-start"
               >
                 <ListItemIcon>{item.icon}</ListItemIcon>
@@ -138,8 +168,24 @@ function Layout() {
           })}
         </MyList>
       </Drawer>
-      <hr />
-      <Outlet />
+			
+			<Box
+				display='flex'
+				flexDirection='column'
+				height='100vh'
+				width={`calc(100vw - ${drawerWidth}px + ${drawerReducer}px)`}
+				margin='auto'
+				alignItems='center'
+			>
+				<Toolbar />
+				<Box
+					flexGrow={1}
+					display='flex'
+					alignItems='center'
+				>
+					<Outlet />
+				</Box>
+			</Box>
     </Box>
   );
 }

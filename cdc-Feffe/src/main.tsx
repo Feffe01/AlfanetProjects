@@ -7,7 +7,13 @@ import Login from './pages/Login.tsx';
 import Homepage from './pages/Homepage.tsx';
 import { CssBaseline, PaletteMode } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles'
-import { ColorModeContext } from './commons/contexts.tsx';
+import { ColorModeContext } from './costants/contexts.tsx';
+import StampingsPage from './pages/StampingsPage.tsx';
+import TimeoffsPage from './pages/TimeoffsPage.tsx';
+import NotificationsPage from './pages/NotificationsPage.tsx';
+import PaySlipsPage from './pages/PaySlipsPage.tsx';
+import ProfilePage from './pages/ProfilePage.tsx';
+import ChangePasswordPage from './pages/ChangePasswordPage.tsx';
 
 const router = createBrowserRouter([
 	{
@@ -17,6 +23,30 @@ const router = createBrowserRouter([
 			{
 				path: 'homepage/',
 				element: <Homepage />,
+			},
+			{
+				path: 'timbrature/',
+				element: <StampingsPage />,
+			},
+			{
+				path: 'assenze/',
+				element: <TimeoffsPage />,
+			},
+			{
+				path: 'notifiche/',
+				element: <NotificationsPage />,
+			},
+			{
+				path: 'bustepaga/',
+				element: <PaySlipsPage />,
+			},
+			{
+				path: 'profilo/',
+				element: <ProfilePage />,
+			},
+			{
+				path: 'cambio-password/',
+				element: <ChangePasswordPage />,
 			},
 		]
 	},
