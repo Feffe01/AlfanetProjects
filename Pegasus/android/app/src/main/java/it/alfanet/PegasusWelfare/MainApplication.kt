@@ -1,4 +1,4 @@
-package gsl.alfanet.Pegasus
+package it.alfanet.PegasusWelfare
 
 import android.app.Application
 import android.content.res.Configuration

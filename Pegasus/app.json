@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Pegasus",
-    "slug": "Pegasus",
+    "name": "Pegasus Welfare",
+    "slug": "Pegasus Welfare",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/pegasus-logo.png",
@@ -13,7 +13,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "gsl.alfanet.Pegasus"
+      "bundleIdentifier": "it.alfanet.PegasusWelfare"
     },
     "android": {
       "adaptiveIcon": {
@@ -25,7 +25,7 @@
         "android.permission.BLUETOOTH_ADMIN",
         "android.permission.BLUETOOTH_CONNECT"
       ],
-      "package": "gsl.alfanet.Pegasus"
+      "package": "it.alfanet.PegasusWelfare"
     },
     "web": {
       "favicon": "./assets/favicon.png"
