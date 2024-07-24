@@ -13,7 +13,7 @@ install! 'cocoapods',
 
 prepare_react_native_project!
 
-target 'Pegasus' do
+target 'PegasusWelfare' do
   use_expo_modules!
   config = use_native_modules!
 

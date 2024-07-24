@@ -33,3 +33,6 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+
+# secrets
+pegasus-welfare-1ce8d1a8c76b.json

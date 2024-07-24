@@ -89,8 +89,11 @@ function TimbratureButton({ style, title, token, beaconAddress }) {
             console.log("Detected device:", device.id, device.name, device.rssi);
 						// console.log(device);
 
-            for (let i = 0; beaconAddress[i]; i++) {
-                if (device.id === beaconAddress[i].MacAddress) {
+            // for (let i = 0; beaconAddress[i]; i++) {
+                if (
+									// device.id === beaconAddress[i].MacAddress
+									device?.name?.includes("WGX_iBeacon")
+								) {
                     console.log("Beacon found: ", device.id);
                     // setDebug("BeaconFound");
                     manager.stopDeviceScan();
@@ -99,7 +102,7 @@ function TimbratureButton({ style, title, token, beaconAddress }) {
                     sendToken();
                     return;
                 }
-            }
+            // }
         });
 
         setTimeout(() => {

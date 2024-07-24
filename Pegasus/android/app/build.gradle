@@ -83,9 +83,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace 'gsl.alfanet.Pegasus'
+    namespace 'it.alfanet.PegasusWelfare'
     defaultConfig {
-        applicationId 'gsl.alfanet.Pegasus'
+        applicationId 'it.alfanet.PegasusWelfare'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

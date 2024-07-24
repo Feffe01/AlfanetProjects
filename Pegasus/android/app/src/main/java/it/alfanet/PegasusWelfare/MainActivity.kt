@@ -1,4 +1,4 @@
-package gsl.alfanet.Pegasus
+package it.alfanet.PegasusWelfare
 
 import android.os.Build
 import android.os.Bundle
