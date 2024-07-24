@@ -6,12 +6,12 @@ import { changePasswordEndpoint, profileEndpoint } from "../costants/endpoints";
 import { IMaskInput } from "react-imask";
 import { useNavigate } from "react-router-dom";
 
-interface CustomProps {
+interface PhoneNumberInputProps {
   onChange: (event: { target: { name: string; value: string } }) => void;
   name: string;
 }
 
-const TextMaskCustom = React.forwardRef<HTMLInputElement, CustomProps>(
+const TextMaskCustom = React.forwardRef<HTMLInputElement, PhoneNumberInputProps>(
   function TextMaskCustom(props, ref) {
     const { onChange, ...other } = props;
     return (
@@ -68,11 +68,19 @@ export default function ProfilePage() {
 	// HANDLING USER INFO CHANGE AND SUBMISSION
 	const [emailError, setEmailError] = useState(false);
 	const [phoneNumberError, setPhoneNumberError] = useState(false);
+	const [disableAccountSubmitButton, setDisableAccountSubmitButton] = useState(true);
 
 	const changeUserInfo = (e: React.ChangeEvent<HTMLInputElement>) => {
     const key = e.target.name;
     setUserInfo({ ...userInfo, [key]: e.target.value });
   };
+
+	useEffect(() => {
+		if(JSON.stringify(userInfo) === JSON.stringify(initialInfo))
+			setDisableAccountSubmitButton(true);
+		else
+			setDisableAccountSubmitButton(false);
+	}, [userInfo]);
 	
 	const checkEmail = (email: string) =>
 	{
@@ -91,7 +99,7 @@ export default function ProfilePage() {
 		event.preventDefault();
 		let isValid: boolean = true;
 
-		if (checkEmail(userInfo.EmailPrincipale))
+		if (!userInfo.EmailPrincipale || checkEmail(userInfo.EmailPrincipale))
 			setEmailError(false);
 		else
 		{
@@ -99,7 +107,7 @@ export default function ProfilePage() {
 			isValid = false;
 		}
 
-		if(checkPhoneNumber(userInfo.TelefonoPrincipale))
+		if(!userInfo.TelefonoPrincipale || checkPhoneNumber(userInfo.TelefonoPrincipale))
 			setPhoneNumberError(false);
 		else
 		{
@@ -306,7 +314,7 @@ export default function ProfilePage() {
 						<FormHelperText>{phoneNumberError ? 'Telefono non valido' : null}</FormHelperText>
 					</FormControl>
 
-					<Button type="submit" variant="contained" disabled={initialInfo === userInfo}>
+					<Button type="submit" variant="contained" disabled={disableAccountSubmitButton}>
 						Aggiorna dati
 					</Button>
 				</Box>

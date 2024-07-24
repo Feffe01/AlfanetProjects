@@ -182,6 +182,8 @@ function Layout() {
 					flexGrow={1}
 					display='flex'
 					alignItems='center'
+					justifyContent="center"
+					width={"100%"}
 				>
 					<Outlet />
 				</Box>
