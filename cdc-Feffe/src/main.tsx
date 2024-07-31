@@ -14,6 +14,16 @@ import NotificationsPage from './pages/NotificationsPage.tsx';
 import PaySlipsPage from './pages/PaySlipsPage.tsx';
 import ProfilePage from './pages/ProfilePage.tsx';
 import ChangePasswordPage from './pages/ChangePasswordPage.tsx';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs from 'dayjs'
+import updateLocale from 'dayjs/plugin/updateLocale'
+import 'dayjs/locale/it';
+
+dayjs.extend(updateLocale)
+dayjs.updateLocale('it', {
+    weekStart: 1,
+})
 
 const router = createBrowserRouter([
 	{
@@ -95,12 +105,14 @@ const RootComponent = () => {
 	const theme = React.useMemo(() => createTheme(getPalette(mode)), [mode]);
 
 	return (
-		<ColorModeContext.Provider value={colorMode}>
-			<ThemeProvider theme={theme}>
-				<CssBaseline />
-				<RouterProvider router={router} />
-			</ThemeProvider>
-		</ColorModeContext.Provider>
+    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="it">
+			<ColorModeContext.Provider value={colorMode}>
+				<ThemeProvider theme={theme}>
+					<CssBaseline />
+					<RouterProvider router={router} />
+				</ThemeProvider>
+			</ColorModeContext.Provider>
+		</LocalizationProvider>
 	)
 }
 

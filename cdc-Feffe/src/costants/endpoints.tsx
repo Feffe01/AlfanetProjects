@@ -24,7 +24,7 @@ export const absenceTypesEndpoint = '/assenze/tipologia'
 export const absenceStatesEndpoint = '/assenze/stati'
 
 export const shiftsEndpoint = '/turni'
-export const shiftsTypeEndpoint = '/turni/tipologia'
+export const shiftTypesEndpoint = '/turni/tipologia'
 export const shiftsActivitiesEndpoint = '/turni/attivita'
 
 export const activityManagementEndpoint = '/attivita'
