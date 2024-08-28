@@ -24,6 +24,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import LogoutButton from './buttons/LogoutButton';
 import { Avatar, Tooltip } from '@mui/material';
 import SwitchThemeButton from './buttons/SwitchThemeButton';
+import EqualizerIcon from '@mui/icons-material/Equalizer';
 
 const drawerWidth = 240;
 
@@ -36,24 +37,30 @@ const listItems = [
 	},
 	{
 		id: 1,
+		label: 'Statistiche',
+		icon: <EqualizerIcon />,
+		path: '/grafico',
+	},
+	{
+		id: 2,
 		label: 'Timbrature',
 		icon: <AssignmentTurnedInRoundedIcon />,
 		path: '/timbrature',
 	},
 	{
-		id: 2,
+		id: 3,
 		label: 'Assenze',
 		icon: <EventBusyRoundedIcon />,
 		path: '/assenze',
 	},
 	{
-		id: 3,
+		id: 4,
 		label: 'Notifiche',
 		icon: <NotificationsRoundedIcon />,
 		path: '/notifiche',
 	},
 	{
-		id: 4,
+		id: 5,
 		label: 'Bustepaga',
 		icon: <DescriptionRoundedIcon />,
 		path: '/bustepaga',

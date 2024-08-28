@@ -13,12 +13,15 @@ import TimeoffsPage from './pages/TimeoffsPage.tsx';
 import NotificationsPage from './pages/NotificationsPage.tsx';
 import PaySlipsPage from './pages/PaySlipsPage.tsx';
 import ProfilePage from './pages/ProfilePage.tsx';
-import ChangePasswordPage from './pages/ChangePasswordPage.tsx';
+import GraphPage from './pages/GraphPage.tsx';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs'
 import updateLocale from 'dayjs/plugin/updateLocale'
 import 'dayjs/locale/it';
+import { itIT as dataGridItIT } from '@mui/x-data-grid/locales';
+import { itIT as coreItIT } from '@mui/material/locale';
+import { itIT } from '@mui/x-date-pickers/locales';
 
 dayjs.extend(updateLocale)
 dayjs.updateLocale('it', {
@@ -55,8 +58,8 @@ const router = createBrowserRouter([
 				element: <ProfilePage />,
 			},
 			{
-				path: 'cambio-password/',
-				element: <ChangePasswordPage />,
+				path: 'grafico/',
+				element: <GraphPage />,
 			},
 		]
 	},
@@ -102,7 +105,12 @@ const RootComponent = () => {
 		},
 	}), []);
 
-	const theme = React.useMemo(() => createTheme(getPalette(mode)), [mode]);
+	const theme = React.useMemo(() => createTheme(
+		getPalette(mode),
+		itIT,
+		dataGridItIT,
+		coreItIT,
+	), [mode]);
 
 	return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="it">

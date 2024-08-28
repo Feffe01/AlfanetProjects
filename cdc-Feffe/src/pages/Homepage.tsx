@@ -195,18 +195,23 @@ export default function Homepage() {
       sx={{
 				'& .header': {
 					backgroundColor: theme.palette.secondary.main,
+					color: 'black',
 				},
 				'& .Mattina': {
 					backgroundColor: shiftTypes.find(ShiftType => ShiftType.Nome === "Mattina")?.color || 'transparent',
+					color: 'black',
 				},
 				'& .Pomeriggio': {
 					backgroundColor: shiftTypes.find(ShiftType => ShiftType.Nome === "Pomeriggio")?.color || 'transparent',
+					color: 'black',
 				},
 				'& .Notturno': {
 					backgroundColor: shiftTypes.find(ShiftType => ShiftType.Nome === "Notturno")?.color || 'transparent',
+					color: 'black',
 				},
 				'& .tempo-pieno': {
 					backgroundColor: shiftTypes.find(ShiftType => ShiftType.Nome === "Tempo Pieno")?.color || 'transparent',
+					color: 'black',
 				},
 			}}
     >
