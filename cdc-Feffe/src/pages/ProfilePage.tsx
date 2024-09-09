@@ -1,8 +1,8 @@
 import { Avatar, Button, CircularProgress, Collapse, FormControl, FormHelperText, Input, InputLabel, TextField, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import React, { useEffect, useState } from "react";
-import { GET, PUT } from "../costants/httpRequests";
-import { changePasswordEndpoint, profileEndpoint } from "../costants/endpoints";
+import { GET, PUT } from "../constants/httpRequests";
+import { changePasswordEndpoint, profileEndpoint } from "../constants/endpoints";
 import { IMaskInput } from "react-imask";
 import { useNavigate } from "react-router-dom";
 

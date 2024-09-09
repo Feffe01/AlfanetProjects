@@ -13,7 +13,7 @@ function App() {
 			if (!token)
 				navigate('/login');
 			else
-				navigate('/homepage')
+				navigate('/turni')
 		}
 
 		checkLogin();

@@ -2,8 +2,8 @@ import { Box, CircularProgress, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { DataGrid, GridRowsProp, GridColDef, GridColumnMenuProps, GridColumnMenu, GridCellParams } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react';
-import { shiftsEndpoint, shiftTypesEndpoint } from '../costants/endpoints'; // Assuming you have an updateShiftEndpoint
-import { GET, PUT } from '../costants/httpRequests';
+import { shiftsEndpoint, shiftTypesEndpoint } from '../constants/endpoints'; // Assuming you have an updateShiftEndpoint
+import { GET, PUT } from '../constants/httpRequests';
 import WeekPicker from '../components/WeekPicker';
 import dayjs, { Dayjs } from 'dayjs';
 
@@ -37,11 +37,10 @@ function CustomColumnMenu(props: GridColumnMenuProps) {
   );
 }
 
-export default function Homepage() {
+export default function ShiftsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [shifts, setShifts] = useState<Shift[]>([]);
   const [shiftTypes, setShiftTypes] = useState<ShiftType[]>([]);
-  const [rows, setRows] = useState<GridRowsProp>([]);
   const [weekStart, setWeekStart] = useState<Dayjs | null>(dayjs().startOf('isoWeek'));
 
   const columns: GridColDef[] = [
@@ -50,90 +49,133 @@ export default function Homepage() {
       headerAlign: "center", headerClassName: "header",
     },
     {
-      field: 'Lunedì', headerName: 'LUNEDÌ', minWidth: 100, maxWidth: 150, flex: 1,
+      field: 'Lunedì', headerName: 'LUNEDÌ',
+			renderHeader: () => (
+				<span style={{textAlign:"center"}}>
+						{shifts[0]?.turni[0]?.NomeGiorno}<br />
+						{shifts[0]?.turni[0]?.Data}
+				</span>
+			), minWidth: 100, maxWidth: 150, flex: 1,
       editable: true, type: 'singleSelect', valueOptions: shiftTypes.map(type => type.Nome),
       headerAlign: "center", headerClassName: "header",
     },
     {
-      field: 'Martedì', headerName: 'MARTEDÌ', minWidth: 100, maxWidth: 150, flex: 1,
+      field: 'Martedì', headerName: 'MARTEDÌ',
+			renderHeader: () => (
+				<span style={{textAlign:"center"}}>
+						{shifts[0]?.turni[1]?.NomeGiorno}<br />
+						{shifts[0]?.turni[1]?.Data}
+				</span>
+			), minWidth: 100, maxWidth: 150, flex: 1,
       editable: true, type: 'singleSelect', valueOptions: shiftTypes.map(type => type.Nome),
       headerAlign: "center", headerClassName: "header",
     },
     {
-      field: 'Mercoledì', headerName: 'MERCOLEDÌ', minWidth: 100, maxWidth: 150, flex: 1,
+      field: 'Mercoledì', headerName: 'MERCOLEDÌ',
+			renderHeader: () => (
+				<span style={{textAlign:"center"}}>
+						{shifts[0]?.turni[2]?.NomeGiorno}<br />
+						{shifts[0]?.turni[2]?.Data}
+				</span>
+			), minWidth: 100, maxWidth: 150, flex: 1,
       editable: true, type: 'singleSelect', valueOptions: shiftTypes.map(type => type.Nome),
       headerAlign: "center", headerClassName: "header",
     },
     {
-      field: 'Giovedì', headerName: 'GIOVEDÌ', minWidth: 100, maxWidth: 150, flex: 1,
+      field: 'Giovedì', headerName: 'GIOVEDÌ',
+			renderHeader: () => (
+				<span style={{textAlign:"center"}}>
+						{shifts[0]?.turni[3]?.NomeGiorno}<br />
+						{shifts[0]?.turni[3]?.Data}
+				</span>
+			), minWidth: 100, maxWidth: 150, flex: 1,
       editable: true, type: 'singleSelect', valueOptions: shiftTypes.map(type => type.Nome),
       headerAlign: "center", headerClassName: "header",
     },
     {
-      field: 'Venerdì', headerName: 'VENERDÌ', minWidth: 100, maxWidth: 150, flex: 1,
+      field: 'Venerdì', headerName: 'VENERDÌ',
+			renderHeader: () => (
+				<span style={{textAlign:"center"}}>
+						{shifts[0]?.turni[4]?.NomeGiorno}<br />
+						{shifts[0]?.turni[4]?.Data}
+				</span>
+			), minWidth: 100, maxWidth: 150, flex: 1,
       editable: true, type: 'singleSelect', valueOptions: shiftTypes.map(type => type.Nome),
       headerAlign: "center", headerClassName: "header",
     },
     {
-      field: 'Sabato', headerName: 'SABATO', minWidth: 100, maxWidth: 150, flex: 1,
+      field: 'Sabato', headerName: 'SABATO',
+			renderHeader: () => (
+				<span style={{textAlign:"center"}}>
+						{shifts[0]?.turni[5]?.NomeGiorno}<br />
+						{shifts[0]?.turni[5]?.Data}
+				</span>
+			), minWidth: 100, maxWidth: 150, flex: 1,
       editable: true, type: 'singleSelect', valueOptions: shiftTypes.map(type => type.Nome),
       headerAlign: "center", headerClassName: "header",
     },
     {
-      field: 'Domenica', headerName: 'DOMENICA', minWidth: 100, maxWidth: 150, flex: 1,
+      field: 'Domenica', headerName: 'DOMENICA',
+			renderHeader: () => (
+				<span style={{textAlign:"center"}}>
+						{shifts[0]?.turni[6]?.NomeGiorno}<br />
+						{shifts[0]?.turni[6]?.Data}
+				</span>
+			), minWidth: 100, maxWidth: 150, flex: 1,
       editable: true, type: 'singleSelect', valueOptions: shiftTypes.map(type => type.Nome),
       headerAlign: "center", headerClassName: "header",
     },
   ];
 
   // GETTING AND SETTING SHIFTS TYPES
-  useEffect(() => {
-    getShiftTypes();
-  }, []);
-
   const getShiftTypes = async () => {
     try {
-      const data: ShiftType[] = await GET(shiftTypesEndpoint);
-      setShiftTypes(data);
+      GET(shiftTypesEndpoint, null, setShiftTypes);
     } catch {
       alert("Si è verificato un errore inaspettato con il server. Si prega di riprovare.");
     }
   }
 
+  useEffect(() => {
+    getShiftTypes();
+  }, []);
+
   // GETTING AND SETTING SHIFTS
+  const getShifts = async () => {
+    try {
+			// setIsLoading(true);
+      await GET(shiftsEndpoint, { dataInizio: weekStart?.format("DD/MM/YYYY") }, setShifts);
+    } catch {
+      alert("Si è verificato un errore inaspettato con il server. Si prega di riprovare.");
+    } finally {
+      setIsLoading(false);
+		}
+  };
+
   useEffect(() => {
     getShifts();
   }, [weekStart]);
 
-  const getShifts = async () => {
-    try {
-      const data: Shift[] = await GET(shiftsEndpoint, { dataInizio: weekStart?.format("DD/MM/YYYY") });
-      setShifts(data);
-      setIsLoading(false);
-    } catch {
-      setIsLoading(false);
-      alert("Si è verificato un errore inaspettato con il server. Si prega di riprovare.");
-    }
-  };
+	const transformDataForTable = () => {
+		if (!shifts.length) return [];
 
-  useEffect(() => {
-    if (!shifts.length) return;
+		const daysOfWeek = ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato", "Domenica"];
 
-    const daysOfWeek = ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato", "Domenica"];
+		const transformedRows = shifts.map((shift) => {
+			const row: { [key: string]: any } = { id: shift.ID, name: `${shift.Nome} ${shift.Cognome}` };
 
-    const transformedRows = shifts.map((shift) => {
-      const row: { [key: string]: any } = { id: shift.ID, name: shift.Nome + " " + shift.Cognome };
+			daysOfWeek.forEach(day => {
+				const dayShift = shift.turni.find(turno => turno.NomeGiorno === day);
+				row[day] = dayShift ? dayShift.nome_turno : '';
+			});
 
-      daysOfWeek.forEach(day => {
-        const dayShift = shift.turni.find(turno => turno.NomeGiorno === day);
-        row[day] = dayShift ? dayShift.nome_turno : '';
-      });
+			return row;
+		});
 
-      return row;
-    });
+		return transformedRows;
+	};
 
-    setRows(transformedRows);
-  }, [shifts]);
+	const rows: GridRowsProp = transformDataForTable();
 
   // HANDLING ROW UPDATE
   const processRowUpdate = async (newRow: any) => {
@@ -178,14 +220,6 @@ export default function Homepage() {
   };
 
   // PAGE
-  if (isLoading) {
-    return (
-      <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
-        <CircularProgress />
-      </Box>
-    );
-  }
-
   const theme = useTheme();
 
   return (
@@ -220,16 +254,22 @@ export default function Homepage() {
       </Typography>
       <WeekPicker onWeekChange={(startOfWeek: Dayjs) => setWeekStart(startOfWeek)} />
       <Box height={"500px"} width={"100%"}>
-        <DataGrid rows={rows} columns={columns}
-          slots={{ columnMenu: CustomColumnMenu }}
-          showCellVerticalBorder
-          getCellClassName={(params: GridCellParams<any, any, number>) => {
-            if (params.value === "Tempo Pieno")
-              return "tempo-pieno";
-            return params.value;
-          }}
-          processRowUpdate={processRowUpdate}
-        />
+				{isLoading ?
+					<Box display="flex" justifyContent="center" alignItems="center" height={"100%"}>
+						<CircularProgress />
+					</Box>
+				:
+					<DataGrid rows={rows} columns={columns}
+						slots={{ columnMenu: CustomColumnMenu }}
+						showCellVerticalBorder
+						getCellClassName={(params: GridCellParams<any, any, number>) => {
+							if (params.value === "Tempo Pieno")
+								return "tempo-pieno";
+							return params.value;
+						}}
+						processRowUpdate={processRowUpdate}
+					/>
+				}
       </Box>
     </Box>
   );

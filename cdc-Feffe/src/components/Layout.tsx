@@ -12,9 +12,10 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import CssBaseline from '@mui/material/CssBaseline';
 import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+import Avatar from '@mui/material/Avatar';
 import { styled } from '@mui/material/styles';
 //mui icons
-import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import AssignmentTurnedInRoundedIcon from '@mui/icons-material/AssignmentTurnedInRounded';
 import EventBusyRoundedIcon from '@mui/icons-material/EventBusyRounded';
 import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded';
@@ -22,18 +23,18 @@ import DescriptionRoundedIcon from '@mui/icons-material/DescriptionRounded';
 import MenuIcon from '@mui/icons-material/Menu';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import LogoutButton from './buttons/LogoutButton';
-import { Avatar, Tooltip } from '@mui/material';
 import SwitchThemeButton from './buttons/SwitchThemeButton';
 import EqualizerIcon from '@mui/icons-material/Equalizer';
+import DateRangeRoundedIcon from '@mui/icons-material/DateRangeRounded';
 
 const drawerWidth = 240;
 
 const listItems = [
 	{
 		id: 0 as number,
-		label: 'Homepage',
-		icon: <HomeRoundedIcon />,
-		path: '/homepage',
+		label: 'Turni',
+		icon: <DateRangeRoundedIcon />,
+		path: '/turni',
 	},
 	{
 		id: 1,
@@ -82,6 +83,7 @@ const MyList = styled(List)<{ component?: React.ElementType }>({
   '& .MuiListItemText-primary': {
     fontSize: 25,
   },
+	overflow: 'hidden',
 });
 
 function Layout() {
@@ -159,18 +161,20 @@ function Layout() {
         <MyList>
           {listItems.map(item => {
             return (
-              <ListItemButton
-								key={item.id}
-                selected={selectedListItem === item.id}
-                // onClick={(event) => handleListItemClick(event, item.id)}
-								onClick={() => handleListItemClick(item.path, item.id)}
-                alignItems="flex-start"
-              >
-                <ListItemIcon>{item.icon}</ListItemIcon>
-                <ListItemText
-                  primary={item.label}
-                />
-              </ListItemButton>
+							<Tooltip title={item.label} placement='right'>
+								<ListItemButton
+									key={item.id}
+									selected={selectedListItem === item.id}
+									// onClick={(event) => handleListItemClick(event, item.id)}
+									onClick={() => handleListItemClick(item.path, item.id)}
+									alignItems="flex-start"
+								>
+									<ListItemIcon>{item.icon}</ListItemIcon>
+									<ListItemText
+										primary={item.label}
+									/>
+								</ListItemButton>
+							</Tooltip>
             )
           })}
         </MyList>

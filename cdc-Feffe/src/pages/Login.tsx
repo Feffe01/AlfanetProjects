@@ -2,7 +2,7 @@ import { Visibility, VisibilityOff } from '@mui/icons-material'
 import Box from '@mui/material/Box'
 import axios from 'axios'
 import React, { useState } from 'react'
-import { loginEndpoint, mainHost } from '../costants/endpoints'
+import { loginEndpoint, mainHost } from '../constants/endpoints'
 import { Button, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 

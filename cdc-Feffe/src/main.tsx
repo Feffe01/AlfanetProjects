@@ -1,27 +1,29 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App.tsx';
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import App from './App.tsx';
 import './index.css';
-import Login from './pages/Login.tsx';
-import Homepage from './pages/Homepage.tsx';
 import { CssBaseline, PaletteMode } from '@mui/material';
-import { ThemeProvider, createTheme } from '@mui/material/styles'
-import { ColorModeContext } from './costants/contexts.tsx';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { ColorModeContext } from './constants/contexts.tsx';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs from 'dayjs';
+import updateLocale from 'dayjs/plugin/updateLocale';
+import 'dayjs/locale/it';
+// Localization imports for Italian language
+import { itIT as dataGridItIT } from '@mui/x-data-grid/locales';
+import { itIT as coreItIT } from '@mui/material/locale';
+import { itIT } from '@mui/x-date-pickers/locales';
+// Page components
+import Login from './pages/Login.tsx';
+import ShiftsPage from './pages/ShiftsPage.tsx';
 import StampingsPage from './pages/StampingsPage.tsx';
 import TimeoffsPage from './pages/TimeoffsPage.tsx';
 import NotificationsPage from './pages/NotificationsPage.tsx';
 import PaySlipsPage from './pages/PaySlipsPage.tsx';
 import ProfilePage from './pages/ProfilePage.tsx';
 import GraphPage from './pages/GraphPage.tsx';
-import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import dayjs from 'dayjs'
-import updateLocale from 'dayjs/plugin/updateLocale'
-import 'dayjs/locale/it';
-import { itIT as dataGridItIT } from '@mui/x-data-grid/locales';
-import { itIT as coreItIT } from '@mui/material/locale';
-import { itIT } from '@mui/x-date-pickers/locales';
 
 dayjs.extend(updateLocale)
 dayjs.updateLocale('it', {
@@ -34,8 +36,8 @@ const router = createBrowserRouter([
 		element: <App />,
 		children: [
 			{
-				path: 'homepage/',
-				element: <Homepage />,
+				path: 'turni/',
+				element: <ShiftsPage />,
 			},
 			{
 				path: 'timbrature/',
@@ -75,17 +77,17 @@ const getPalette = (mode: PaletteMode) => ({
 		...(mode === 'light'
 			? {
 				primary: {
-					main: '#141850',
+					main: '#141850',	//dark blue
 				},
 				secondary: {
-					main: '#ED7966',
+					main: '#ED7966',	//orange
 				},
 			} : {
 				primary: {
-					main: '#00a6d1',
+					main: '#ED7966',	//orange	//#00a6d1 for light blue
 				},
 				secondary: {
-					main: '#ED7966',
+					main: '#ED7966',	//orange
 				},
 			}
 		),
