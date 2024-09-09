@@ -1,6 +1,6 @@
 import { Box, Button, CircularProgress, Typography } from '@mui/material';
 import { BarChart, BarSeriesType } from '@mui/x-charts';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { GET } from '../constants/httpRequests';
 import { productionGraphDataEndpoint } from '../constants/endpoints';
 import dayjs, { Dayjs } from 'dayjs';
