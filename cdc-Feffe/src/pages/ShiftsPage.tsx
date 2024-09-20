@@ -38,123 +38,123 @@ function CustomColumnMenu(props: GridColumnMenuProps) {
 }
 
 export default function ShiftsPage() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [shifts, setShifts] = useState<Shift[]>([]);
-  const [shiftTypes, setShiftTypes] = useState<ShiftType[]>([]);
-  const [weekStart, setWeekStart] = useState<Dayjs | null>(dayjs().startOf('isoWeek'));
+	const [isLoading, setIsLoading] = useState(true);
+	const [shifts, setShifts] = useState<Shift[]>([]);
+	const [shiftTypes, setShiftTypes] = useState<ShiftType[]>([]);
+	const [weekStart, setWeekStart] = useState<Dayjs | null>(dayjs().startOf('isoWeek'));
 
-  const columns: GridColDef[] = [
-    {
-      field: 'name', headerName: 'NOME', minWidth: 100, maxWidth: 150, flex: 2,
-      headerAlign: "center", headerClassName: "header",
-    },
-    {
-      field: 'Lunedì', headerName: 'LUNEDÌ',
+	const columns: GridColDef[] = [
+		{
+			field: 'name', headerName: 'NOME', minWidth: 100, maxWidth: 150, flex: 2,
+			headerAlign: "center", headerClassName: "header",
+		},
+		{
+			field: 'Lunedì', headerName: 'LUNEDÌ',
 			renderHeader: () => (
 				<span style={{textAlign:"center"}}>
 						{shifts[0]?.turni[0]?.NomeGiorno}<br />
 						{shifts[0]?.turni[0]?.Data}
 				</span>
 			), minWidth: 100, maxWidth: 150, flex: 1,
-      editable: true, type: 'singleSelect', valueOptions: shiftTypes.map(type => type.Nome),
-      headerAlign: "center", headerClassName: "header",
-    },
-    {
-      field: 'Martedì', headerName: 'MARTEDÌ',
+			editable: true, type: 'singleSelect', valueOptions: shiftTypes.map(type => type.Nome),
+			headerAlign: "center", headerClassName: "header",
+		},
+		{
+			field: 'Martedì', headerName: 'MARTEDÌ',
 			renderHeader: () => (
 				<span style={{textAlign:"center"}}>
 						{shifts[0]?.turni[1]?.NomeGiorno}<br />
 						{shifts[0]?.turni[1]?.Data}
 				</span>
 			), minWidth: 100, maxWidth: 150, flex: 1,
-      editable: true, type: 'singleSelect', valueOptions: shiftTypes.map(type => type.Nome),
-      headerAlign: "center", headerClassName: "header",
-    },
-    {
-      field: 'Mercoledì', headerName: 'MERCOLEDÌ',
+			editable: true, type: 'singleSelect', valueOptions: shiftTypes.map(type => type.Nome),
+			headerAlign: "center", headerClassName: "header",
+		},
+		{
+			field: 'Mercoledì', headerName: 'MERCOLEDÌ',
 			renderHeader: () => (
 				<span style={{textAlign:"center"}}>
 						{shifts[0]?.turni[2]?.NomeGiorno}<br />
 						{shifts[0]?.turni[2]?.Data}
 				</span>
 			), minWidth: 100, maxWidth: 150, flex: 1,
-      editable: true, type: 'singleSelect', valueOptions: shiftTypes.map(type => type.Nome),
-      headerAlign: "center", headerClassName: "header",
-    },
-    {
-      field: 'Giovedì', headerName: 'GIOVEDÌ',
+			editable: true, type: 'singleSelect', valueOptions: shiftTypes.map(type => type.Nome),
+			headerAlign: "center", headerClassName: "header",
+		},
+		{
+			field: 'Giovedì', headerName: 'GIOVEDÌ',
 			renderHeader: () => (
 				<span style={{textAlign:"center"}}>
 						{shifts[0]?.turni[3]?.NomeGiorno}<br />
 						{shifts[0]?.turni[3]?.Data}
 				</span>
 			), minWidth: 100, maxWidth: 150, flex: 1,
-      editable: true, type: 'singleSelect', valueOptions: shiftTypes.map(type => type.Nome),
-      headerAlign: "center", headerClassName: "header",
-    },
-    {
-      field: 'Venerdì', headerName: 'VENERDÌ',
+			editable: true, type: 'singleSelect', valueOptions: shiftTypes.map(type => type.Nome),
+			headerAlign: "center", headerClassName: "header",
+		},
+		{
+			field: 'Venerdì', headerName: 'VENERDÌ',
 			renderHeader: () => (
 				<span style={{textAlign:"center"}}>
 						{shifts[0]?.turni[4]?.NomeGiorno}<br />
 						{shifts[0]?.turni[4]?.Data}
 				</span>
 			), minWidth: 100, maxWidth: 150, flex: 1,
-      editable: true, type: 'singleSelect', valueOptions: shiftTypes.map(type => type.Nome),
-      headerAlign: "center", headerClassName: "header",
-    },
-    {
-      field: 'Sabato', headerName: 'SABATO',
+			editable: true, type: 'singleSelect', valueOptions: shiftTypes.map(type => type.Nome),
+			headerAlign: "center", headerClassName: "header",
+		},
+		{
+			field: 'Sabato', headerName: 'SABATO',
 			renderHeader: () => (
 				<span style={{textAlign:"center"}}>
 						{shifts[0]?.turni[5]?.NomeGiorno}<br />
 						{shifts[0]?.turni[5]?.Data}
 				</span>
 			), minWidth: 100, maxWidth: 150, flex: 1,
-      editable: true, type: 'singleSelect', valueOptions: shiftTypes.map(type => type.Nome),
-      headerAlign: "center", headerClassName: "header",
-    },
-    {
-      field: 'Domenica', headerName: 'DOMENICA',
+			editable: true, type: 'singleSelect', valueOptions: shiftTypes.map(type => type.Nome),
+			headerAlign: "center", headerClassName: "header",
+		},
+		{
+			field: 'Domenica', headerName: 'DOMENICA',
 			renderHeader: () => (
 				<span style={{textAlign:"center"}}>
 						{shifts[0]?.turni[6]?.NomeGiorno}<br />
 						{shifts[0]?.turni[6]?.Data}
 				</span>
 			), minWidth: 100, maxWidth: 150, flex: 1,
-      editable: true, type: 'singleSelect', valueOptions: shiftTypes.map(type => type.Nome),
-      headerAlign: "center", headerClassName: "header",
-    },
-  ];
+			editable: true, type: 'singleSelect', valueOptions: shiftTypes.map(type => type.Nome),
+			headerAlign: "center", headerClassName: "header",
+		},
+	];
 
-  // GETTING AND SETTING SHIFTS TYPES
-  const getShiftTypes = async () => {
-    try {
-      GET(shiftTypesEndpoint, null, setShiftTypes);
-    } catch {
-      alert("Si è verificato un errore inaspettato con il server. Si prega di riprovare.");
-    }
-  }
-
-  useEffect(() => {
-    getShiftTypes();
-  }, []);
-
-  // GETTING AND SETTING SHIFTS
-  const getShifts = async () => {
-    try {
-			// setIsLoading(true);
-      await GET(shiftsEndpoint, { dataInizio: weekStart?.format("DD/MM/YYYY") }, setShifts);
-    } catch {
-      alert("Si è verificato un errore inaspettato con il server. Si prega di riprovare.");
-    } finally {
-      setIsLoading(false);
+	// GETTING AND SETTING SHIFTS TYPES
+	const getShiftTypes = async () => {
+		try {
+			GET(shiftTypesEndpoint, null, setShiftTypes);
+		} catch {
+			alert("Si è verificato un errore inaspettato con il server. Si prega di riprovare.");
 		}
-  };
+	}
 
-  useEffect(() => {
-    getShifts();
-  }, [weekStart]);
+	useEffect(() => {
+		getShiftTypes();
+	}, []);
+
+	// GETTING AND SETTING SHIFTS
+	const getShifts = async () => {
+		try {
+			// setIsLoading(true);
+			await GET(shiftsEndpoint, { dataInizio: weekStart?.format("DD/MM/YYYY") }, setShifts);
+		} catch {
+			alert("Si è verificato un errore inaspettato con il server. Si prega di riprovare.");
+		} finally {
+			setIsLoading(false);
+		}
+	};
+
+	useEffect(() => {
+		getShifts();
+	}, [weekStart]);
 
 	const transformDataForTable = () => {
 		if (!shifts.length) return [];
@@ -177,47 +177,47 @@ export default function ShiftsPage() {
 
 	const rows: GridRowsProp = transformDataForTable();
 
-  // HANDLING ROW UPDATE
-  const processRowUpdate = async (newRow: any) => {
-    // Find the shift corresponding to the updated row
-    const shiftToUpdate = shifts.find(shift => shift.ID === newRow.id);
-    if (!shiftToUpdate) return newRow;
+	// HANDLING ROW UPDATE
+	const processRowUpdate = async (newRow: any) => {
+		// Find the shift corresponding to the updated row
+		const shiftToUpdate = shifts.find(shift => shift.ID === newRow.id);
+		if (!shiftToUpdate) return newRow;
 
-    // Update the turni array with the new value
-    const updatedTurni = shiftToUpdate.turni.map(turno => {
-      const dayName = Object.keys(newRow).find(key => key !== 'id' && key !== 'name' && key === turno.NomeGiorno);
-      if (dayName) {
-        const selectedShiftType = newRow[dayName];
-        const selectedShiftTypeObj = shiftTypes.find(type => type.Nome === selectedShiftType);
+		// Update the turni array with the new value
+		const updatedTurni = shiftToUpdate.turni.map(turno => {
+			const dayName = Object.keys(newRow).find(key => key !== 'id' && key !== 'name' && key === turno.NomeGiorno);
+			if (dayName) {
+				const selectedShiftType = newRow[dayName];
+				const selectedShiftTypeObj = shiftTypes.find(type => type.Nome === selectedShiftType);
 
-        return {
-          ...turno,
-          nome_turno: selectedShiftType,
-          Id_turno: selectedShiftTypeObj ? selectedShiftTypeObj.ID : turno.Id_turno,
-        };
-      }
-      return turno;
-    });
+				return {
+					...turno,
+					nome_turno: selectedShiftType,
+					Id_turno: selectedShiftTypeObj ? selectedShiftTypeObj.ID : turno.Id_turno,
+				};
+			}
+			return turno;
+		});
 
-    // Create a new shift object with updated turni
-    const updatedShift = { ...shiftToUpdate, turni: updatedTurni };
+		// Create a new shift object with updated turni
+		const updatedShift = { ...shiftToUpdate, turni: updatedTurni };
 
-    // Update the local state
-    const updatedShifts = shifts.map(shift => (shift.ID === updatedShift.ID ? updatedShift : shift));
-    setShifts(updatedShifts);
+		// Update the local state
+		const updatedShifts = shifts.map(shift => (shift.ID === updatedShift.ID ? updatedShift : shift));
+		setShifts(updatedShifts);
 
-    // Prepare and send the PUT request
-    try {
-      await PUT(shiftsEndpoint, updatedShifts);
-      console.log(`Shift updated successfully: ${newRow.id}`);
-    } catch (error) {
-      console.error("Error updating shift: ", error);
-      alert("Si è verificato un errore inaspettato con il server. Si prega di riprovare.");
-      return newRow;
-    }
+		// Prepare and send the PUT request
+		try {
+			await PUT(shiftsEndpoint, updatedShifts);
+			console.log(`Shift updated successfully: ${newRow.id}`);
+		} catch (error) {
+			console.error("Error updating shift: ", error);
+			alert("Si è verificato un errore inaspettato con il server. Si prega di riprovare.");
+			return newRow;
+		}
 
-    return { ...newRow };
-  };
+		return { ...newRow };
+	};
 
   // PAGE
   const theme = useTheme();
@@ -230,6 +230,9 @@ export default function ShiftsPage() {
 				'& .header': {
 					backgroundColor: theme.palette.secondary.main,
 					color: 'black',
+				},
+				'& .MuiDataGrid-root .MuiDataGrid-cell:focus-within': {
+					outline: "none !important",
 				},
 				'& .Mattina': {
 					backgroundColor: shiftTypes.find(ShiftType => ShiftType.Nome === "Mattina")?.color || 'transparent',
@@ -268,6 +271,9 @@ export default function ShiftsPage() {
 							return params.value;
 						}}
 						processRowUpdate={processRowUpdate}
+						disableRowSelectionOnClick
+						checkboxSelection
+						disableMultipleRowSelection
 					/>
 				}
       </Box>
