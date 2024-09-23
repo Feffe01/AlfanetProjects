@@ -19,6 +19,7 @@ interface Notification {
 	idTipo: string,
 	id_destinatario: string,
 	lettoAdmin: boolean,
+	datatime: string,
 }
 
 interface TableRow {
@@ -108,8 +109,8 @@ export default function NotificationsPage() {
 				recipient: notification.id_destinatario,
 				type: notification.idTipo,
 				message: notification.descrizione,
-				date:	dayjs(notification.data).format("DD/MM/YYYY"),
-				time:	dayjs(notification.ora, "HH:mm:ss").format("HH:mm"),
+				date:	dayjs(notification.datatime).format("DD/MM/YYYY"),
+				time:	dayjs(notification.datatime).format("HH:mm"),
 				isRead: notification.lettoAdmin,
 			};
 

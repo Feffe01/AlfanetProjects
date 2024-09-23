@@ -60,12 +60,12 @@ const listItems = [
 		icon: <NotificationsRoundedIcon />,
 		path: '/notifiche',
 	},
-	{
+	/*{
 		id: 5,
 		label: 'Bustepaga',
 		icon: <DescriptionRoundedIcon />,
 		path: '/bustepaga',
-	},
+	},*/
 ];
 
 const MyList = styled(List)<{ component?: React.ElementType }>({

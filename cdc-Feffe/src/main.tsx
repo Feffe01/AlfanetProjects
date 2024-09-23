@@ -51,10 +51,10 @@ const router = createBrowserRouter([
 				path: 'notifiche/',
 				element: <NotificationsPage />,
 			},
-			{
+			/*{
 				path: 'bustepaga/',
 				element: <PaySlipsPage />,
-			},
+			},*/
 			{
 				path: 'profilo/',
 				element: <ProfilePage />,

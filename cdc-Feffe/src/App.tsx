@@ -12,8 +12,6 @@ function App() {
 	
 			if (!token)
 				navigate('/login');
-			else
-				navigate('/turni')
 		}
 
 		checkLogin();

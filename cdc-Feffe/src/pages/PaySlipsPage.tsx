@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { GET } from '../constants/httpRequests';
-import { timbratureEndpoint } from '../constants/endpoints';
+import { timeoffsEndpoint } from '../constants/endpoints';
 import dayjs from 'dayjs';
 
 export default function PaySlipsPage() {
 
 	useEffect(() => {
-		GET(timbratureEndpoint, {dataInizio: dayjs().toISOString()});
+		GET(timeoffsEndpoint, {dataInizio: dayjs("11/07/2024").toISOString()});
 	}, []);
 
 	return (

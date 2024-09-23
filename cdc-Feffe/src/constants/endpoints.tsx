@@ -19,9 +19,9 @@ export const qrCodeEndpoint = '/anagrafica/qr-code'
 export const productionEndpoint = '/produzione'
 export const productionGraphDataEndpoint = '/produzione/grafico'
 
-export const timeReportEndpoint = '/assenze'
-export const absenceTypesEndpoint = '/assenze/tipologia'
-export const absenceStatesEndpoint = '/assenze/stati'
+export const timeoffsEndpoint = '/assenze'
+export const timeoffTypesEndpoint = '/assenze/tipologia'
+export const timeoffStatusesEndpoint = '/assenze/stati'
 
 export const shiftsEndpoint = '/turni'
 export const shiftTypesEndpoint = '/turni/tipologia'
